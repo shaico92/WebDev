@@ -8,7 +8,7 @@ var Campground = require('../models/campground')
 
 
 //this is the root route
-
+//check commit change
 router.get('/' ,(req, res) => {
 
 
