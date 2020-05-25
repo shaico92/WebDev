@@ -6,6 +6,7 @@ var bodyParser = require('body-parser'),
  requests = require('request'),
   logged = false;
  app = express();
+ //something new
  var passport = require('passport')
  var methodOverride = require('method-override');
 var LocalStrategy = require('passport-local');
