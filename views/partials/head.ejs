@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/campgrounds.css">
+    <title>Home</title>
+
+    
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            
+            <div class="navbar-header">
+                <a href="/" class="navbar-brand">YelpCamp</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- //if no user -->
+                    <% if(!user){ %> 
+                    <li>
+                        
+
+                        <a href="/login"><img src="/imgs/user.png" class="icons" alt="Remove this image" /> Login</a></li>
+                    
+                    <li><a href="/register">Sign Up</a></li>
+                <%}else{%>
+                    <!-- else show :  -->
+                    <li><a href="#">Signed in as <strong><%= user.username %></strong></a> </li>
+                    <li><a href="/logout"><img src="/imgs/logout.png" class="icons" alt="Remove this image" />  Logout</a></li>
+                <%}%>
+                </ul>
+            </div>
+        </div>
+        
+    </nav>
