@@ -55,7 +55,7 @@ router.use('/',function (req,res, next) {
     
              next();
         } else {
-            res.status(401).send('not permitted to dp this action!!');
+            res.status(401).send('Not permitoed to dp this action!! please login first');
         }
         
     });

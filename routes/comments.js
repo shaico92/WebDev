@@ -52,7 +52,7 @@ Campground.findById(req.params.id,function (err, campground) {
                 comment.save();
                 campground.comments.push(comment);
                 campground.save();
-                res.redirect('/campgrounds/'+campground._id)
+                res.redirect('/campgrounds/view/'+campground._id)
             }
             
         })
@@ -68,6 +68,124 @@ Campground.findById(req.params.id,function (err, campground) {
     
     
 })
+
+//edit comment
+
+router.get('/:comment_id/edit',function(req,res) {
+    var id = req.params.id;
+    Campground.findById(id,function (err,campground) {
+    if (err) {
+        console.log(err);
+        
+    } else {
+        var comment_id = req.params.comment_id;
+        Comment.findById(comment_id,function(err,comment) {
+            if (err) {
+                console.log(err);
+                
+            } else {
+                res.render('comments/edit',{campground,comment});
+                //res.send('lol this is new')
+            }
+            
+        })
+    }    
+    })
+    
+
+
+    
+})
+
+
+
+//updating comment
+
+router.put('/:comment_id',function(req,res) {
+    Comment.findById(req.params.comment_id,function(err,comment) {
+
+        if (err) {
+            res.redirect('back')
+        } else {
+            
+    var content = req.body.comment;
+    comment.text = content.text;
+    comment.save();
+    res.redirect('/campgrounds/view/'+req.params.id);            
+        }
+        
+    })
+
+
+
+
+
+    
+})
+
+
+
+//delete comment
+
+router.delete('/:comment_id',function(req,res) {
+    Campground.findById(req.params.id,function(err,campground) {
+        if (err) {
+            console.log(err);
+            
+        } else {
+            Comment.findById(req.params.comment_id,function(err,comment) {
+                if (err) {
+                    console.log(err);
+                    
+                } else {
+                    comment.remove();
+                    campground.save();
+                    res.redirect('/campgrounds/view/'+campground._id);
+                }
+                
+            })
+        }
+        
+    })
+
+    
+})
+
+function checkOwnership(req,res, next) {
+
+    //is it the user's campground 
+    Campground.findById(req.params.id,function(err,campground) {
+        if (err) {
+            console.log(err);
+            res.redirect('/campgrounds')
+        } else {
+            //doing it to compare ids as strings and not objects
+            
+            Comment.findById(req.params.comment_id,function(err,comment) {
+                if (err) {
+                    console.log(err);
+                    
+                } else {
+                    var variable1= req.user.id.toString();
+                    //var variabl2=campground.comments.comment.author.id.toString();
+                    if (variable1==variabl2) {
+
+                        console.log('match comment user and logged user can edit now');
+                        return next();
+                    }else{
+                        res.redirect('back');
+                    }
+                }
+                
+            })
+            
+            }
+        }
+        
+        
+    )
+
+}
 function isLoggedIn(req,res, next) {
 
     if (req.isAuthenticated()) {
