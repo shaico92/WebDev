@@ -1,9 +1,11 @@
 var mongoose = require('mongoose');
 
 
-var commentSchema = mongoose.Schema({
+var commentSchema = new mongoose.Schema({
     text: String,
-    author: {
+    author : {
+          
+        
         id: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
@@ -12,5 +14,5 @@ var commentSchema = mongoose.Schema({
     }
 });
 
-var Comment = mongoose.model('Comment',commentSchema);
-module.exports = Comment
+var Comment = new mongoose.model('Comment',commentSchema);
+module.exports = Comment;

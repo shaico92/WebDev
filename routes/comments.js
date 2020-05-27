@@ -41,21 +41,51 @@ Campground.findById(req.params.id,function (err, campground) {
         console.log(err);
         res.redirect('/campgrounds');
     } else {
-        Comment.create(req.body.comment,function (err, comment) {
-            if (err) {
-                console.log(err);
+        var author = {
+            id : req.user.id,
+            username : req.user.username
+        }
+        
+        var commentText = req.body.comment.text;
+
+        var newComment = new Comment({
+            // text: String,
+            // author : {
+                  
                 
-            } else {
+            //     id: {
+            //         type: mongoose.Schema.Types.ObjectId,
+            //         ref: 'User'
+            //     },
+            //     username : String
+            // }
+                text : commentText.toString(),
+                author : author
+
+        })
+
+        // Comment.create(req.body.comment,function (err, comment) {
+        //     if (err) {
+        //         console.log(err);
+                
+        //     } else {
                 // add username and id to comment and then save comment
-                comment.author._id = req.user._id;
-                comment.author.username = req.user.username;
-                comment.save();
-                campground.comments.push(comment);
+
+                    
+
+
+                // comment.author._id = req.user._id;
+                // comment.author.username = req.user.username;
+                // comment.save();
+
+                newComment.save();
+                campground.comments.push(newComment);
+                //campground.comments.push(comment);
                 campground.save();
                 res.redirect('/campgrounds/view/'+campground._id)
-            }
+         //   }
             
-        })
+       // })
     }
     
 })
@@ -127,63 +157,59 @@ router.put('/:comment_id',function(req,res) {
 
 //delete comment
 
-router.delete('/:comment_id',function(req,res) {
-    Campground.findById(req.params.id,function(err,campground) {
-        if (err) {
-            console.log(err);
-            
-        } else {
-            Comment.findById(req.params.comment_id,function(err,comment) {
-                if (err) {
-                    console.log(err);
+router.delete('/:comment_id',checkCommentOwnership,function(req,res) {
+            //Comment.findById(req.params.comment_id,function(err,comment) {
+                //if (err) {
+                  //  console.log(err);
                     
-                } else {
-                    comment.remove();
-                    campground.save();
-                    res.redirect('/campgrounds/view/'+campground._id);
-                }
-                
-            })
-        }
-        
-    })
+                //} else {
+                    Comment.findById(req.params.comment_id,function (err,comment){
 
-    
-})
-
-function checkOwnership(req,res, next) {
-
-    //is it the user's campground 
-    Campground.findById(req.params.id,function(err,campground) {
-        if (err) {
-            console.log(err);
-            res.redirect('/campgrounds')
-        } else {
-            //doing it to compare ids as strings and not objects
-            
-            Comment.findById(req.params.comment_id,function(err,comment) {
-                if (err) {
-                    console.log(err);
+                        console.log(comment.author.id);
+                        
+                        comment.remove();
                     
-                } else {
-                    var variable1= req.user.id.toString();
-                    //var variabl2=campground.comments.comment.author.id.toString();
-                    if (variable1==variabl2) {
+                        res.redirect('/campgrounds/view/'+req.params.id);
 
-                        console.log('match comment user and logged user can edit now');
-                        return next();
-                    }else{
-                        res.redirect('back');
-                    }
-                }
+
+                    })
+                    
+              //  }
                 
-            })
-            
-            }
+            //})
         }
-        
         
     )
+
+    
+
+
+function checkCommentOwnership(req,res, next) {
+    
+        //is it the user's campground 
+        Comment.findById(req.params.comment_id,function(err,comment) {
+            if (err) {
+                console.log(err);
+                res.redirect('/campgrounds')
+            } else {
+                //doing it to compare ids as strings and not objects
+                var variable1= req.user.id.toString();
+                var variabl2=comment.author.id.toString();
+                
+                
+                if(variable1==variabl2){
+                    // now can continue to next function
+                    return next();
+                    //res.render('campgrounds/edit', {campToEdit});    
+                }else{
+                    //maybe try a different res at the moment this is what i have
+                    res.redirect('back');
+                     
+                }
+            }
+            
+            
+        })
 
 }
 function isLoggedIn(req,res, next) {
