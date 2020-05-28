@@ -8,13 +8,14 @@ var router = express.Router({mergeParams : true});
 var User = require('../models/user')
 var Campground = require('../models/campground');
 var Comment = require('../models/comment');
+var middleware = require('../middleware');
 
 /*
 ==============================
 Comments Routes
 =============================
 */
-router.get('/new',isLoggedIn,function (req ,res) {
+router.get('/new',middleware.checkLoggedIn,function (req ,res) {
 
     var byID = req.params.id;
 Campground.findById(byID,function (err , campground) {
@@ -31,7 +32,7 @@ Campground.findById(byID,function (err , campground) {
 //create the comment for campground
 //comment to test new branch
 
-router.post('/',isLoggedIn,function(req, res) {
+router.post('/',middleware.checkLoggedIn,function(req, res) {
 
   
     //look up campground
@@ -101,7 +102,7 @@ Campground.findById(req.params.id,function (err, campground) {
 
 //edit comment
 
-router.get('/:comment_id/edit',function(req,res) {
+router.get('/:comment_id/edit',middleware.checkCommentOwnership,function(req,res) {
     var id = req.params.id;
     Campground.findById(id,function (err,campground) {
     if (err) {
@@ -131,7 +132,7 @@ router.get('/:comment_id/edit',function(req,res) {
 
 //updating comment
 
-router.put('/:comment_id',function(req,res) {
+router.put('/:comment_id',middleware.checkCommentOwnership,function(req,res) {
     Comment.findById(req.params.comment_id,function(err,comment) {
 
         if (err) {
@@ -157,7 +158,7 @@ router.put('/:comment_id',function(req,res) {
 
 //delete comment
 
-router.delete('/:comment_id',checkCommentOwnership,function(req,res) {
+router.delete('/:comment_id',middleware.checkCommentOwnership,function(req,res) {
             //Comment.findById(req.params.comment_id,function(err,comment) {
                 //if (err) {
                   //  console.log(err);
@@ -183,44 +184,5 @@ router.delete('/:comment_id',checkCommentOwnership,function(req,res) {
 
     
 
-
-function checkCommentOwnership(req,res, next) {
-    
-        //is it the user's campground 
-        Comment.findById(req.params.comment_id,function(err,comment) {
-            if (err) {
-                console.log(err);
-                res.redirect('/campgrounds')
-            } else {
-                //doing it to compare ids as strings and not objects
-                var variable1= req.user.id.toString();
-                var variabl2=comment.author.id.toString();
-                
-                
-                if(variable1==variabl2){
-                    // now can continue to next function
-                    return next();
-                    //res.render('campgrounds/edit', {campToEdit});    
-                }else{
-                    //maybe try a different res at the moment this is what i have
-                    res.redirect('back');
-                     
-                }
-            }
-            
-            
-        })
-
-}
-function isLoggedIn(req,res, next) {
-
-    if (req.isAuthenticated()) {
-
-        return next();
-        
-    }
-    res.redirect('/login')
-    
-}
 
 module.exports = router;

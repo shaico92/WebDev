@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var Campground = require('../models/campground')
 
+//can only work if middleware file name is index.js
+var middleware = require('../middleware');
 
 
 
@@ -47,21 +49,21 @@ router.get('/' ,(req, res) => {
 
     
 //checks authorization for editing/deleting
-router.use('/',function (req,res, next) {
+// router.use('/',function (req,res, next) {
     
     
-        if (req.isAuthenticated()) {
+//         if (req.isAuthenticated()) {
     
     
-             next();
-        } else {
-            res.status(401).send('Not permitoed to dp this action!! please login first');
-        }
+//              next();
+//         } else {
+//             res.status(401).send('Not permitoed to dp this action!! please login first');
+//         }
         
-    });
+//     });
 
 
-    router.get('/new', function(req,res) {
+    router.get('/new',middleware.checkLoggedIn,  function(req,res) {
         console.log(req.body);
         
         res.render('campgrounds/new');
@@ -69,7 +71,7 @@ router.use('/',function (req,res, next) {
 
 
 // create a new campground
-router.post('/', (req, res) => {
+router.post('/',middleware.checkLoggedIn, (req, res) => {
 
     //get data from from and ad dto campground array
 
@@ -112,7 +114,7 @@ router.post('/', (req, res) => {
 )
 // edit campground route
 
-router.get('/:id/edit',checkOwnership,function(req,res) {
+router.get('/:id/edit',middleware.checkCampgroundOwnership,function(req,res) {
         Campground.findById(req.params.id,function(err,campToEdit) {
             res.render('campgrounds/edit', {campToEdit});    
                 
@@ -124,14 +126,14 @@ router.get('/:id/edit',checkOwnership,function(req,res) {
 })
 //update campground route
 
-router.put('/:id',function(req,res) {
+router.put('/:id',middleware.checkCampgroundOwnership,function(req,res) {
     Campground.findByIdAndUpdate(req.params.id,req.body.campground,function (err, updatedCampground) {
         if (err) {
             console.log(err);
             
         } else {
             //console.log(updatedCampground);
-            res.redirect('/campgrounds/'+req.params.id)
+            res.redirect('/campgrounds/view/'+req.params.id)
             
         }
     })
@@ -142,7 +144,7 @@ router.put('/:id',function(req,res) {
 
 //DESTROY route 
 
-router.delete('/:id',checkOwnership,function (req,res) {
+router.delete('/:id',middleware.checkCampgroundOwnership,function (req,res) {
 
     
         Campground.findById(req.params.id,function (err,campToDelete) {
@@ -169,32 +171,6 @@ router.delete('/:id',checkOwnership,function (req,res) {
     
 })
 
-function checkOwnership(req,res, next) {
 
-        //is it the user's campground 
-        Campground.findById(req.params.id,function(err,campToEdit) {
-            if (err) {
-                console.log(err);
-                res.redirect('/campgrounds')
-            } else {
-                //doing it to compare ids as strings and not objects
-                var variable1= req.user.id.toString();
-                var variabl2=campToEdit.creator.id.toString();
-                
-                
-                if(variable1==variabl2){
-                    // now can continue to next function
-                    return next();
-                    //res.render('campgrounds/edit', {campToEdit});    
-                }else{
-                    //maybe try a different res at the moment this is what i have
-                    res.redirect('back');
-                     
-                }
-            }
-            
-            
-        })
 
-}
 module.exports =router;
