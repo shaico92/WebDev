@@ -3,15 +3,16 @@ var bodyParser = require('body-parser'),
  mongoose = require('mongoose'),
  express = require('express'),
  mongoose = require('mongoose'),
+ flash = require('connect-flash'),
  requests = require('request'),
   logged = false;
  app = express();
- //something new
- var passport = require('passport')
- var methodOverride = require('method-override');
+ //dependencies for passport
+ var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var passportLocalMongoose = require('passport-local-mongoose');
-
+//dependency for method override
+var methodOverride = require('method-override');
 //inside modules
  var User = require('./models/user')
  //routes dependencies
@@ -41,9 +42,15 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+
+app.use(flash());
+
+
 //own middleware for user check
 app.use((req,res ,next)=>{
     res.locals.user = req.user;
+    res.locals.error = req.flash('error');
+    res.locals.success = req.flash('success');
    return  next();
 })
 

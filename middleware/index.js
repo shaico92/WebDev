@@ -14,6 +14,7 @@ middlewareObj.checkLoggedIn =  function (req,res, next) {
         return next();
         
     }
+    req.flash('error', "Please Login First!!");
     res.redirect('/login')
     
 }
@@ -24,8 +25,7 @@ middlewareObj.checkCampgroundOwnership = function (req,res, next) {
     //is it the user's campground 
     Campground.findById(req.params.id,function(err,campToEdit) {
         if (err) {
-            console.log(err);
-            res.redirect('/campgrounds/view')
+            req.flash('error', 'Campground not found!!');
         } else {
             //doing it to compare ids as strings and not objects
             var variable1= req.user.id.toString();
@@ -38,6 +38,7 @@ middlewareObj.checkCampgroundOwnership = function (req,res, next) {
                 //res.render('campgrounds/edit', {campToEdit});    
             }else{
                 //maybe try a different res at the moment this is what i have
+                req.flash('error', 'You dont have permission to do that!');
                 res.redirect('back');
                  
             }
@@ -70,6 +71,8 @@ middlewareObj.checkCommentOwnership = function (req,res, next) {
                 //res.render('campgrounds/edit', {campToEdit});    
             }else{
                 //maybe try a different res at the moment this is what i have
+
+                req.flash('error', 'You dont have permission to do that , the comment is not yours!');
                 res.redirect('back');
                  
             }
