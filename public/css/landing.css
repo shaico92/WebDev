@@ -1,0 +1,81 @@
+body{
+    background-color: black;
+}
+
+#landing-header{
+    z-index: 1;
+    color: wheat;
+    position: relative;
+    text-align: center;
+    padding-top: 40vh;
+}
+.slideshow{
+    
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.slideshow li{
+ width: 100%;
+ height: 100%;
+ position: absolute;
+ top: 0;
+ left: 0;
+ background-size: cover;
+ background-position: 50% 50%;
+ background-repeat: no-repeat;
+ opacity: 0;
+ z-index: 0;
+ animation: lol 50s linear infinite;
+}
+
+
+
+.slideshow li:nth-child(1){
+/* background-image: url(http://localhost/imgs/bearlobster.jpg); */
+background-image: url(http://localhost/imgs/fam.jpg);
+animation-delay: 0s;
+}
+.slideshow li:nth-child(2){
+    background-image: url(http://localhost/imgs/insideTent.jpg);
+    animation-delay: 10s;
+}
+.slideshow li:nth-child(3){
+    background-image: url(http://localhost/imgs/caravan.jpg
+    );
+    animation-delay: 20s;
+}
+.slideshow li:nth-child(4){
+    background-image: url(http://localhost/imgs/mountain.jpg);
+    animation-delay: 30s;
+}
+.slideshow li:nth-child(5){
+    background-image: url(http://localhost/imgs/womananddog.jpg);
+    animation-delay: 40s;
+}
+
+
+
+
+
+@keyframes lol{
+    0% { 
+        opacity: 0;
+        animation-timing-function: ease-in;
+    }
+    10% {
+        opacity: 1;
+        animation-timing-function: ease-out;
+    }
+    20% {
+opacity: 1;
+    }
+    30% {
+opacity: 0;
+    }
+}

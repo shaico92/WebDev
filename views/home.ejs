@@ -1,6 +1,32 @@
-<%-include('partials/head')%>
-<h1>Welcome to YelpCamp</h1>
-<a href="/campgrounds">view all campGrounds</a><br>
-
-
-<%-include('partials/foot')%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/landing.css">
+    <title>YelpCamp</title>
+</head>
+<body>
+    
+<div class="container">
+    <div id="landing-header">
+        <h1>Welcome to YelpCamp</h1>
+        <a class="btn btn-lg btn-success" href="/campgrounds">view all campGrounds</a>
+    
+    </div>
+    
+    <ul class="slideshow">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+    
+    
+    
+    
+    <%-include('partials/foot')%>

@@ -60,7 +60,7 @@ var Comment = require('./models/comment');
 
 
 //listen
-app.listen(80, ()=>  {
+app.listen(80,()=>  {
 
     console.log("server is running ");
 
@@ -82,17 +82,3 @@ function closeServer() {
 
 //closes server
 app.get('/close',closeServer);
-
-//check function to see if user is logged in
-function isLoggedIn(req,res,next) {
-
-    if (req.isAuthenticated()) {
-        
-        
-        return next();
-        
-    } 
-    
-    res.redirect('/login');
-    
-}
