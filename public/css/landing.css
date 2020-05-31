@@ -38,24 +38,24 @@ body{
 
 .slideshow li:nth-child(1){
 /* background-image: url(http://localhost/imgs/bearlobster.jpg); */
-background-image: url(http://localhost/imgs/fam.jpg);
+background-image: url(../imgs/fam.jpg);
 animation-delay: 0s;
 }
 .slideshow li:nth-child(2){
-    background-image: url(http://localhost/imgs/insideTent.jpg);
+    background-image: url(../imgs/insideTent.jpg);
     animation-delay: 10s;
 }
 .slideshow li:nth-child(3){
-    background-image: url(http://localhost/imgs/caravan.jpg
+    background-image: url(../imgs/caravan.jpg
     );
     animation-delay: 20s;
 }
 .slideshow li:nth-child(4){
-    background-image: url(http://localhost/imgs/mountain.jpg);
+    background-image: url(../imgs/mountain.jpg);
     animation-delay: 30s;
 }
 .slideshow li:nth-child(5){
-    background-image: url(http://localhost/imgs/womananddog.jpg);
+    background-image: url(../imgs/womananddog.jpg);
     animation-delay: 40s;
 }
 
