@@ -33,7 +33,8 @@ passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
+var date = new Date();
+var timestamp = date.getTime();
   var seedDB = require('./models/seed')
 //a method that initilized DB for tests
 //seedDB();
@@ -49,6 +50,7 @@ app.use(flash());
 //own middleware for user check
 app.use((req,res ,next)=>{
     res.locals.user = req.user;
+    res.locals.timestamp = timestamp;
     res.locals.error = req.flash('error');
     res.locals.success = req.flash('success');
    return  next();
@@ -63,7 +65,9 @@ var Comment = require('./models/comment');
 app.listen(80,()=>  {
 
     console.log("server is running ");
-
+    
+    //console.log(timestamp);
+    
 
 });
 

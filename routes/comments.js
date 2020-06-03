@@ -9,7 +9,8 @@ var User = require('../models/user')
 var Campground = require('../models/campground');
 var Comment = require('../models/comment');
 var middleware = require('../middleware');
-
+var date = new Date();
+var timestamp = date.getTime();
 /*
 ==============================
 Comments Routes
@@ -48,7 +49,7 @@ Campground.findById(req.params.id,function (err, campground) {
         }
         
         var commentText = req.body.comment.text;
-
+        var created =timestamp;
         var newComment = new Comment({
             // text: String,
             // author : {
@@ -61,7 +62,8 @@ Campground.findById(req.params.id,function (err, campground) {
             //     username : String
             // }
                 text : commentText.toString(),
-                author : author
+                author : author,
+                created : created
 
         })
 

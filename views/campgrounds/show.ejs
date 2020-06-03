@@ -46,7 +46,10 @@
                 
                     <div class="col-md-12">
                         <strong><%= comment.author.username %></strong>
-                        <span class="pull-right"> 10 days ago</span>
+                                        
+                        <span class="pull-right"><%= comment.created.toDateString();  %> </span>
+                        
+                        <!-- <span class="pull-right"> 10 days ago</span> -->
                         <p>
                             <%= comment.text %> 
                         </p>

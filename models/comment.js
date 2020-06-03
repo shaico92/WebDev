@@ -11,7 +11,8 @@ var commentSchema = new mongoose.Schema({
             ref: 'User'
         },
         username : String
-    }
+    },
+    created : {type: Date, default: Date.now}
 });
 
 var Comment = new mongoose.model('Comment',commentSchema);
