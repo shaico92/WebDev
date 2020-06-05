@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var Campground = require('../models/campground')
 
+
+
+
 //can only work if middleware file name is index.js
 var middleware = require('../middleware');
 
@@ -64,7 +67,7 @@ router.get('/' ,(req, res) => {
 
 
     router.get('/new',middleware.checkLoggedIn,  function(req,res) {
-        console.log(req.body);
+        
         
         res.render('campgrounds/new');
     } );
@@ -72,10 +75,16 @@ router.get('/' ,(req, res) => {
 
 // create a new campground
 router.post('/',middleware.checkLoggedIn, (req, res) => {
+    
+    //checkfiletype
+
+    
+
 
     //get data from from and ad dto campground array
 
     var name = req.body.name;
+    var price = req.body.price;
     var image = req.body.image;
     var description = req.body.description;
     var creator = {
@@ -83,13 +92,12 @@ router.post('/',middleware.checkLoggedIn, (req, res) => {
         username : req.user.username
     }
     var newCampGround = new Campground({
-        name: name, image: image ,description: description ,
+        name: name, price: price,image: image ,description: description ,
         creator : creator
         
 
 
     })
-
     
     newCampGround.save(function (err , camp){
         if(err){
@@ -97,7 +105,7 @@ router.post('/',middleware.checkLoggedIn, (req, res) => {
             
         }else{
             
-                   console.log(camp);
+            res.redirect('/campgrounds');               
                         
             
         }
@@ -106,7 +114,7 @@ router.post('/',middleware.checkLoggedIn, (req, res) => {
     
     )
     //campground.push(newCampGround);
-    res.redirect('/campgrounds');
+    
     //redirect to campground page
 
 
