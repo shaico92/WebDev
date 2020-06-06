@@ -16,7 +16,12 @@
         </div>
         <div class="col-md-9">
             <div class="thumbnail">
-                <img class="img-responsive" src="../../../<%= campground['image'] ;%> " alt="">
+                <% if(!campground.image){ %>
+                    <img class="img-responsive" src="/imgs/noImage.png">    
+                <% }else{ %> 
+                
+                <img class="img-responsive" src="../../../<%= campground['image'] ;%>">
+                <% } %> 
                 <div class="caption-full">
                     <h4 class="pull-right">
                         <%= campground.price %> $/night
@@ -24,20 +29,60 @@
                     
                     <h4><a href=""><%= campground['name'] %></a></h4>
                     <p><%= campground['description']; %> </p>
+                    <%if (user&&user.id.toString()===campground.creator.id.toString()) { %> 
                     <div class="btn-group dropup pull-right">
                         <button id="forModal" type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>    
                     properties    
                         </button>
+                        
                         <ul class="dropdown-menu">
                             <!-- add checkboxes and icons here -->
-                            <li><span class="glyphicon glyphicon-search"></span> Has AC</li>
-                            <li><span class="glyphicon glyphicon-search"></span> </li>
-                            <li><span class="glyphicon glyphicon-search"></span> </li>
-                            <li><span class="glyphicon glyphicon-search"></span> </li>
-                            <li><span class="glyphicon glyphicon-search"></span> </li>
-                            <button class="btn btn-xs btn-primary pull-right align-center">submit</button>
+                            <form action="/campgrounds/view/<%= campground.id %>?_method=PUT" method="POST">
+                            
+                                <li><input type="checkbox" name="properties[ac]">AC</li>
+                                <li><input type="checkbox" name="properties[clean]">Clean</li>
+                                <li><input type="checkbox" name="properties[bbq]">BBQ</li>
+                                <li><input type="checkbox" name="properties[acdc]">ACDC</li>
+                                <li><input type="checkbox" name="properties[parking]">Parking</li>
+                                <button type="submit" class="btn btn-xs btn-primary pull-right align-center">submit</button>
+                            </form>
                           </ul>
+                          <% }else{ %> 
+                            <div class="btn-group dropup pull-right">
+                                <button id="forModal" type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>    
+                            properties    
+                                </button>
+                                
+                                <ul class="dropdown-menu">
+                                            <% if (campground.properties.ac===true) {%>
+                                        <li><input type="checkbox"   checked disabled>AC</li>        
+                                           <% }else{ %>
+                                            <li><input type="checkbox"    disabled>AC</li>
+                                            <%  }%>  
+                                            <% if (campground.properties.clean===true) {%>
+                                        <li><input type="checkbox"   checked disabled>Clean</li>        
+                                           <% }else{ %>
+                                            <li><input type="checkbox"    disabled>Clean</li>
+                                            <%  }%>  
+                                            <% if (campground.properties.bbq===true) {%>
+                                        <li><input type="checkbox"   checked disabled>BBQ</li>        
+                                           <% }else{ %>
+                                            <li><input type="checkbox"    disabled>BBQ</li>
+                                            <%  }%>  
+                                            <% if (campground.properties.acdc===true) {%>
+                                        <li><input type="checkbox"   checked disabled>ACDC</li>        
+                                           <% }else{ %>
+                                            <li><input type="checkbox"    disabled>ACDC</li>
+                                            <%  }%>  
+                                            <% if (campground.properties.parking===true) {%>
+                                        <li><input type="checkbox"   checked disabled>Parking</li>        
+                                           <% }else{ %>
+                                            <li><input type="checkbox"    disabled>Parking</li>
+                                            <%  }%>  
+                                  </ul>
+                          <% } %> 
                         </div>
                     <p>Submitted by
                         <strong><em><%= campground.creator.username %></em> </strong>

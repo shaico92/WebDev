@@ -10,6 +10,14 @@ var campSchema = new mongoose.Schema({
         type :mongoose.Schema.Types.ObjectId,
         ref: 'Comment'
     }],
+    properties :{
+        ac : Boolean,
+        clean : Boolean,
+        bbq : Boolean,
+        acdc : Boolean,
+        parking : Boolean
+
+    },
     creator : {
         id: {
             type :mongoose.Schema.Types.ObjectId,

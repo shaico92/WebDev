@@ -1,16 +1,16 @@
 <%-include('../partials/head')%>
-
+<script src="/js/generalmethods.js"></script>
 
 <div class="container">
     <h1 style="text-align: center;">Edit <%= campToEdit.name %> </h1>
     <div class="row">
         <div style="width:30%; margin: 30px auto;">
             <form  action="/campgrounds/<%= campToEdit._id %>?_method=PUT"  method="POST" enctype="multipart/form-data">
-                <div class="form-group"><input class="form-control" type="text" name= 'campground[name]' value="<%= campToEdit.name %>"  ></div>
-                <div class="form-group"><input class="form-control" type="number" name= 'campground[price]' value="<%= campToEdit.PRICE %>"  ></div>
-                <div class="form-group"><input class="form-control" type="file"  accept="image/*" name = 'campground[image]' value="<%= campToEdit.image %>" ></div>
-                <div class="form-group"><input class="form-control" type="text" name = 'campground[description]' value="<%= campToEdit.description %>" ></div>
-                <div class="form-group"><button class="btn btn-primary btn-lg btn-block">Update!</button></div>
+                <div class="form-group"><input class="form-control" type="text" name= 'name' value="<%= campToEdit.name %>"  ></div>
+                <div class="form-group"><input class="form-control" type="number" name= 'price' value="<%= campToEdit.price %>"  ></div>
+                <div class="form-group"><input class="form-control" type="file"  accept="image/*" name = 'image' alt="" ></div>
+                <div class="form-group"><input class="form-control" type="text" name = 'description' value="<%= campToEdit.description %>" ></div>
+                <div class="form-group"><button class="btn btn-primary btn-lg btn-block"  type="submit" >Update!</button></div>
                     </form>
                     <a href="/campgrounds">Go Back</a> 
         </div>  

@@ -5,7 +5,7 @@ const path= require('path');
 const multer = require('multer');
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-    cb(null, 'public/imgs')
+    cb(null, 'public/uploads')
     },
     filename: function (req, file, cb) {
     cb(null, file.fieldname + '-' + Date.now())
@@ -58,7 +58,7 @@ router.get('/' ,(req, res) => {
                 console.log(err);
                 
             } else {
-                console.log(foundCampground);
+                
                 
                 ;
                 
@@ -83,14 +83,16 @@ router.post('/',middleware.checkLoggedIn,upload.single('image'), (req, res) => {
     
     //checkfiletype
     
-    
+    if (req.file) {
+        var image = "uploads/"+req.file.filename;    
+    }
 
 
     //get data from from and ad dto campground array
 
     var name = req.body.name;
     var price = req.body.price;
-    var image = "imgs/"+req.file.filename;
+    
     
     var description = req.body.description;
     var creator = {
@@ -138,19 +140,83 @@ router.get('/:id/edit',middleware.checkCampgroundOwnership,function(req,res) {
 //update campground route
 
 router.put('/:id',middleware.checkCampgroundOwnership,upload.single('image'),function(req,res) {
-    Campground.findByIdAndUpdate(req.params.id,req.body.campground,function (err, updatedCampground) {
+    Campground.findById(req.params.id,function (err, updatedCampground) {
         if (err) {
             console.log(err);
             
         } else {
-            res.redirect('/campgrounds/view/'+req.params.id)
+
+                    var content = req.body;
+                    if (req.file) {
+                        updatedCampground.image = "uploads/"+req.file.filename;
+                        
+                    }
+                    updatedCampground.name = content.name;
+                    updatedCampground.price = content.price;
+                    
+                    updatedCampground.description = content.description; 
             
+            updatedCampground.save();
+
+
+
+
+            res.redirect('/campgrounds/view/'+req.params.id)
+                    
         }
     })
 
 
 })
 
+
+
+//updating camp properties
+
+router.put('/view/:id',middleware.checkCampgroundOwnership,function(req,res) {
+    Campground.findById(req.params.id,function(err,camp) {
+        if (err) {
+            console.log(err);
+            
+        } else {
+            var props = req.body.properties;
+            if (!props.ac) {
+                
+                camp.properties.ac =false;
+                
+            }
+            if (!props.clean) {
+                
+                
+                camp.properties.clean =false;
+            }else{
+                camp.properties.clean =true;
+            }
+            if (!props.bbq) {
+                
+                camp.properties.bbq =false;
+            }else{
+                camp.properties.bbq =true;
+            }
+            if (!props.acdc) {
+                
+                camp.properties.acdc =false;
+            }else{
+                camp.properties.acdc  =true;
+            }
+            if (!props.parking) {
+                
+                camp.properties.parking =false;
+            }else{
+                camp.properties.parking  =true;
+            }
+        
+                
+            camp.save();
+        }
+        
+    })
+})
 
 //DESTROY route 
 
