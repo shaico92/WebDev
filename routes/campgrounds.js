@@ -5,7 +5,7 @@ const path= require('path');
 const multer = require('multer');
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-    cb(null, 'public/uploads')
+    cb(null, 'public/imgs')
     },
     filename: function (req, file, cb) {
     cb(null, file.fieldname + '-' + Date.now())
@@ -90,7 +90,7 @@ router.post('/',middleware.checkLoggedIn,upload.single('image'), (req, res) => {
 
     var name = req.body.name;
     var price = req.body.price;
-    var image = "uploads/"+req.file.filename;
+    var image = "imgs/"+req.file.filename;
     
     var description = req.body.description;
     var creator = {
