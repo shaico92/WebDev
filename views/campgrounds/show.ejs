@@ -24,25 +24,25 @@
                     
                     <h4><a href=""><%= campground['name'] %></a></h4>
                     <p><%= campground['description']; %> </p>
-                    <p>Submitted by 
-                        <strong><em><%= campground.creator.username %></em> </strong>
-                    </p>
                     <div class="btn-group dropup pull-right">
-                        <button id="forModal" type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span>
+                        <button id="forModal" type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>    
-                    properties
-                            
+                    properties    
                         </button>
                         <ul class="dropdown-menu">
                             <!-- add checkboxes and icons here -->
-                            <li><span class="glyphicon glyphicon-search"></span></li>
-                            <li><span class="glyphicon glyphicon-search"></span></li>
-                            <li><span class="glyphicon glyphicon-search"></span></li>
-                            <li><span class="glyphicon glyphicon-search"></span></li>
-                            <li><span class="glyphicon glyphicon-search"></span></li>
+                            <li><span class="glyphicon glyphicon-search"></span> Has AC</li>
+                            <li><span class="glyphicon glyphicon-search"></span> </li>
+                            <li><span class="glyphicon glyphicon-search"></span> </li>
+                            <li><span class="glyphicon glyphicon-search"></span> </li>
+                            <li><span class="glyphicon glyphicon-search"></span> </li>
                             <button class="btn btn-xs btn-primary pull-right align-center">submit</button>
                           </ul>
                         </div>
+                    <p>Submitted by
+                        <strong><em><%= campground.creator.username %></em> </strong>
+                    </p>
+                    
                     </div>
                     
                     <%if (user&&user.id.toString()===campground.creator.id.toString()) { %> 

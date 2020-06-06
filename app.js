@@ -1,4 +1,4 @@
-console.log("script executed");
+
 var bodyParser = require('body-parser'),
  mongoose = require('mongoose'),
  express = require('express'),
