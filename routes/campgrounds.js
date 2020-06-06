@@ -188,7 +188,7 @@ router.put('/view/:id',middleware.checkCampgroundOwnership,function(req,res) {
             if (!props.clean) {
                 
                 
-                camp.properties.clean =false;
+                camp.properties.clean =true;
             }else{
                 camp.properties.clean =true;
             }
@@ -213,6 +213,7 @@ router.put('/view/:id',middleware.checkCampgroundOwnership,function(req,res) {
         
                 
             camp.save();
+            res.redirect('/campgrounds/view/'+req.params.id)
         }
         
     })

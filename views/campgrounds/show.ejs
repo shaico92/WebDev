@@ -39,12 +39,32 @@
                         <ul class="dropdown-menu">
                             <!-- add checkboxes and icons here -->
                             <form action="/campgrounds/view/<%= campground.id %>?_method=PUT" method="POST">
-                            
-                                <li><input type="checkbox" name="properties[ac]">AC</li>
-                                <li><input type="checkbox" name="properties[clean]">Clean</li>
-                                <li><input type="checkbox" name="properties[bbq]">BBQ</li>
-                                <li><input type="checkbox" name="properties[acdc]">ACDC</li>
-                                <li><input type="checkbox" name="properties[parking]">Parking</li>
+                                <% if (campground.properties.ac===true) {%>
+                                    <li><input type="checkbox"  name="properties[ac]" checked >AC</li>        
+                                       <% }else{ %>
+                                        <li><input type="checkbox"   name="properties[ac]" >AC</li>
+                                        <%  }%>  
+                                        <% if (campground.properties.clean===true) {%>
+                                    <li><input type="checkbox" name="properties[clean]"  checked >Clean</li>        
+                                       <% }else{ %>
+                                        <li><input type="checkbox"    name="properties[clean]">Clean</li>
+                                        <%  }%>  
+                                        <% if (campground.properties.bbq===true) {%>
+                                    <li><input type="checkbox" name="properties[bbq]"   checked >BBQ</li>        
+                                       <% }else{ %>
+                                        <li><input type="checkbox"    name="properties[bbq]">BBQ</li>
+                                        <%  }%>  
+                                        <% if (campground.properties.acdc===true) {%>
+                                    <li><input type="checkbox"  name="properties[acdc]" checked >ACDC</li>        
+                                       <% }else{ %>
+                                        <li><input type="checkbox"    name="properties[acdc]">ACDC</li>
+                                        <%  }%>  
+                                        <% if (campground.properties.parking===true) {%>
+                                    <li><input type="checkbox" name="properties[parking]"   checked >Parking</li>        
+                                       <% }else{ %>
+                                        <li><input type="checkbox"    name="properties[parking]">Parking</li>
+                                        <%  }%>  
+
                                 <button type="submit" class="btn btn-xs btn-primary pull-right align-center">submit</button>
                             </form>
                           </ul>
