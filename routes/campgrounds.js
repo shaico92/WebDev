@@ -180,38 +180,23 @@ router.put('/view/:id',middleware.checkCampgroundOwnership,function(req,res) {
             
         } else {
             var props = req.body.properties;
-            if (!props.ac) {
-                
-                camp.properties.ac =false;
-                
+            if (!props) {
+            camp.properties.ac = false;
+            camp.properties.clean = false;
+            camp.properties.bbq = false;
+            camp.properties.acdc = false;
+            camp.properties.parking = false;
+            } else {
+                camp.properties.ac = !!props.ac;
+            camp.properties.clean = !!props.clean;
+            camp.properties.bbq = !!props.bbq;
+            camp.properties.acdc = !!props.acdc;
+            camp.properties.parking = !!props.parking;
             }
-            if (!props.clean) {
-                
-                
-                camp.properties.clean =true;
-            }else{
-                camp.properties.clean =true;
-            }
-            if (!props.bbq) {
-                
-                camp.properties.bbq =false;
-            }else{
-                camp.properties.bbq =true;
-            }
-            if (!props.acdc) {
-                
-                camp.properties.acdc =false;
-            }else{
-                camp.properties.acdc  =true;
-            }
-            if (!props.parking) {
-                
-                camp.properties.parking =false;
-            }else{
-                camp.properties.parking  =true;
-            }
-        
-                
+
+            
+            
+
             camp.save();
             res.redirect('/campgrounds/view/'+req.params.id)
         }
