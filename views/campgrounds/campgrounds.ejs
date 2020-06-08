@@ -30,7 +30,13 @@
         <div class="col-md-3 col-sm-6">
 
             <div class="thumbnail">
-                <img src="/<%= element ['image'];%>" alt="">
+                <% if(!element.image){ %>
+                    <img class="img-responsive" src="/imgs/noImage.png">    
+                <% }else{ %> 
+                
+                    <img src="/<%= element ['image'];%>" alt="">
+                <% } %> 
+                
                 <div class="caption">
                     <h4><%= element['name'] %> </h4>
                 </div>
